@@ -23,21 +23,36 @@ def product_list(request):
         return Response(serializer.data)
     elif request.method == 'POST':
         # to desirilize the data we pass our data to our product serializer
-        serializer = ProductSerializer(data=request.data)
+        serializer = ProductSerializer(
+            data=request.data, context={"request":  request})
         serializer.is_valid(raise_exception=True)
-        print(serializer.validated_data)
-        return Response('ok')
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view()
+@api_view(['GET', 'PUT', 'DELETE'])
 def product_description(request, id):
     # here we pass 2 arguments 1.type of model
     # and 2.lookup id
     product = get_object_or_404(Product, pk=id)
-    # create a serializer to seri alize the product
-    serializer = ProductSerializer(product)
-    # the above gives a dictionary of the product
-    return Response(serializer.data)
+    if request.method == 'GET':
+        # create a serializer to seri alize the product
+        serializer = ProductSerializer(product, context={"request": request})
+        # the above gives a dictionary of the product
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = ProductSerializer(
+            product, data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    elif request.method == "DELETE":
+        # To handle foreign key protected  in orderitem
+        if product.orderitems.count() > 0:
+            return Response({"error": "Product cannot be deleted because it is associated with an order"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view()
