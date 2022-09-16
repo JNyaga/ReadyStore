@@ -9,6 +9,8 @@ class Promotion(models.Model):
 
 class Collection(models.Model):
     title = models.CharField(max_length=255)
+    #Related name set to '+' to avoid circular imports
+    #Circular imports happen when we have a model that has a foreign key to itself
     featured_product = models.ForeignKey(
         'Product', on_delete=models.SET_NULL, null=True, related_name='+', blank=True)
 

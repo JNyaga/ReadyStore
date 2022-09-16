@@ -140,3 +140,9 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# define new object for Django Rest Framework
+#this prevents the default behaviour to display strings instead of numbers in the API
+REST_FRAMEWORK = {
+    'COERCE_DECIMAL_TO_STRING': False,
+}
