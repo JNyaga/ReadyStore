@@ -15,8 +15,8 @@ class CollectionSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('id', 'title', 'unit_price',
-                  'price_with_tax', 'description', 'collection')
+        fields = ('id', 'title', 'description', 'slug', 'inventory', 'unit_price',
+                  'price_with_tax', 'collection')
     # Nowwe have to define the fields to serialize in a python dictionary
     # We get the fields from the model that we want to serialize(extenal representation)
     '''
