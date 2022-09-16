@@ -40,3 +40,10 @@ class ProductSerializer(serializers.ModelSerializer):
         # Product is the instance of the model
         # Decimal ensures that the value is a decimal for calculations
         return product.unit_price * Decimal(1.1)
+
+
+''' 
+    def validate(self, data):
+        if data['password'] != data['confirm_password']:
+            return serializers.ValidationError("Password do not match")
+        return data '''

@@ -25,7 +25,7 @@ def product_list(request):
         # to desirilize the data we pass our data to our product serializer
         serializer = ProductSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.validated_data
+        print(serializer.validated_data)
         return Response('ok')
 
 
