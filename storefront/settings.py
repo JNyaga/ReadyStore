@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
     'rest_framework',
     'playground',
     'debug_toolbar',
@@ -142,7 +143,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # define new object for Django Rest Framework
-#this prevents the default behaviour to display strings instead of numbers in the API
+# this prevents the default behaviour to display strings instead of numbers in the API
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
 }
