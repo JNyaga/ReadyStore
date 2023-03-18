@@ -39,12 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_filters',
     'rest_framework',
+    'djoser',
     'playground',
     'debug_toolbar',
     'store',
-    'store_custom',
     'tags',
-    'likes'
+    'likes',
+    'core'
 ]
 
 MIDDLEWARE = [
@@ -146,4 +147,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # this prevents the default behaviour to display strings instead of numbers in the API
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'PAGE_SIZE': 10
+}
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+}
+
+# Tell django to use the core user instead of the original for authentication
+AUTH_USER_MODEL = 'core.User'
+
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'core.serializers.UserCreateSerializer',
+    }
 }

@@ -3,12 +3,14 @@ from django.shortcuts import render, get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.response import Response
 
 from .filters import ProductFilter
-from .models import Product, Collection, Review
-from .serializers import CollectionSerializer, ProductSerializer, ReviewSerializer
+from .pagination import DefaultPagination
+from .models import Product, Collection, Review, OrderItem, Cart, CartItem
+from .serializers import CollectionSerializer, ProductSerializer, ReviewSerializer, CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer
 # Create your views here.
 
 
@@ -18,6 +20,7 @@ class ProductViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     # filterset_fields = ['collection_id']
     filterset_class = ProductFilter
+    pagination_class = DefaultPagination
     search_fields = ['title', 'description']
     ordering_fields = ['unit_price', 'last_update']
 
@@ -26,6 +29,7 @@ class ProductViewSet(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         if OrderItem.objects.filter(product_id=kwargs['pk']).count() > 0:
+            print(kwargs)
             return Response({"error": "Product cannot be deleted because it is associated with an order"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
         return super().destroy(request, *args, **kwargs)
 
@@ -133,3 +137,34 @@ class ReviewViewset(ModelViewSet):
 
     def get_serializer_context(self):
         return {'product_id': self.kwargs['product_pk']}
+
+
+class CartViewSet(CreateModelMixin,
+                  RetrieveModelMixin,
+                  DestroyModelMixin,
+                  GenericViewSet):
+    queryset = Cart.objects.prefetch_related('items__product').all()
+    serializer_class = CartSerializer
+
+
+class CartItemViewSet(ModelViewSet):
+    http_method_names = ['get', 'post', 'patch', 'delete']
+    # serializer_class = CartItemSerializer
+
+    # dynamically change the serializer class depending on reuest:
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return AddCartItemSerializer
+        elif self.request.method == 'PATCH':
+            return UpdateCartItemSerializer
+        return CartItemSerializer
+
+    # passing cart id to serializer
+    def get_serializer_context(self):
+        return {"cart_id": self.kwargs['cart_pk']}
+
+    # filter by cartId
+    def get_queryset(self):
+        return CartItem.objects\
+            .filter(cart_id=self.kwargs['cart_pk'])\
+            .select_related('product')
