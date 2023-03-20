@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser, DjangoModelPermissions
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.response import Response
 
@@ -14,7 +14,7 @@ from .filters import ProductFilter
 from .pagination import DefaultPagination
 from .models import Product, Collection, Review, OrderItem, Cart, CartItem, Customer
 from .serializers import CollectionSerializer, ProductSerializer, ReviewSerializer, CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer
-from .permissions import IsAdminorReadOnly
+from .permissions import FullDjangoModelPermissions, IsAdminorReadOnly, ViewCustomerHistoryPermission
 # Create your views here.
 
 
@@ -180,11 +180,16 @@ class CustomerViewSet(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     permission_classes = [IsAdminUser]
+    # permission_classes = [FullDjangoModelPermissions]
 
     # def get_permissions(self):
     #     if self.request.method == 'GET':
     #         return [AllowAny()]
     #     return [IsAuthenticated()]
+
+    @action(detail=True, permission_classes=[ViewCustomerHistoryPermission])
+    def history(self, request, pk):
+        return Response('ok')
 
     @action(detail=False,  methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
     def me(self, request):
