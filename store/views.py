@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.db.models.aggregates import Count
 from django.shortcuts import render, get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
@@ -195,6 +196,7 @@ class CustomerViewSet(ModelViewSet):
     def me(self, request):
         (customer, created) = Customer.objects.get_or_create(
             user_id=request.user.id)
+
         if request.method == 'GET':
             serializer = CustomerSerializer(customer)
             return Response(serializer.data)
@@ -206,15 +208,28 @@ class CustomerViewSet(ModelViewSet):
 
 
 class OrderViewSet(ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    http_method_names = ['get', 'patch', 'delete', 'head', 'options']
+
+    def get_permissions(self):
+        if self.request.method in ['DELETE', 'PATCH']:
+            return [IsAdminUser()]
+        return [IsAuthenticated()]
+
+    def create(self, request, *args, **kwargs):
+        serializer = CreateOrderSerializer(data=request.data, context={
+                                           'user_id': self.request.user.id})
+        serializer.is_valid(raise_exception=True)
+        order = serializer.save()
+        serializer = OrderSerializer(order)
+        return Response(serializer.data)
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return CreateOrderSerializer
         return OrderSerializer
 
-    def get_serializer_context(self):
-        return {'user_id': self.request.user.id}
+    # def get_serializer_context(self):
+    #     return {'user_id': self.request.user.id}
 
     def get_queryset(self):
         user = self.request.user
