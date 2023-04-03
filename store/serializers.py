@@ -1,7 +1,6 @@
 from decimal import Decimal
 from django.db import transaction
 from rest_framework import serializers
-from urllib3 import Retry
 from store.models import Order, OrderItem, Product, Collection, Review, Cart, CartItem, Customer
 
 
@@ -173,6 +172,12 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'customer', 'placed_at', 'payment_status', 'items']
+
+
+class UpdateOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['payment_status']
 
 
 class CreateOrderSerializer(serializers.Serializer):
