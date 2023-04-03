@@ -1,4 +1,3 @@
-from mimetypes import init
 from rest_framework import permissions
 
 
