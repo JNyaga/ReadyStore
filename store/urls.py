@@ -25,7 +25,7 @@ carts_router = routers.NestedDefaultRouter(router, 'carts', lookup='cart')
 carts_router.register('items', views.CartItemViewSet, basename='cart-items')
 
 
-pprint(product_router.urls)
+# pprint(product_router.urls)
 
 
 # URLConf
