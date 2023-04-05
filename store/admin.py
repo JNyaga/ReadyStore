@@ -22,6 +22,7 @@ class InventoryFilter(admin.SimpleListFilter):
 
 class ProductImageInline(admin.TabularInline):
     model = models.ProductImage
+    extra = 0
     # To see the thumbnail
     readonly_fields = ['thumbnail']
 
@@ -64,6 +65,11 @@ class ProductAdmin(admin.ModelAdmin):
             f'{updated_count} products were successfully updated.',
             messages.ERROR
         )
+
+    class Media:
+        css = {
+            'all': ['store/styles.css']
+        }
 
 
 @admin.register(models.Collection)
