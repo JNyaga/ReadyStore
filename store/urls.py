@@ -19,6 +19,8 @@ product_router = routers.NestedDefaultRouter(
 # Basename-> used as prefix for generating url patterns
 product_router.register('reviews', views.ReviewViewset,
                         basename='product-reviews')
+product_router.register(
+    'images', views.ProductImageViewSet, basename='product-images')
 
 carts_router = routers.NestedDefaultRouter(router, 'carts', lookup='cart')
 

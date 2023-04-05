@@ -12,14 +12,15 @@ from rest_framework.response import Response
 
 from .filters import ProductFilter
 from .pagination import DefaultPagination
-from .models import Order, Product, Collection, Review, OrderItem, Cart, CartItem, Customer
-from .serializers import CollectionSerializer, CreateOrderSerializer, OrderSerializer, ProductSerializer, ReviewSerializer, CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer, UpdateOrderSerializer
+from .models import Order, Product, Collection, ProductImage, Review, OrderItem, Cart, CartItem, Customer
+from .serializers import CollectionSerializer, CreateOrderSerializer, OrderSerializer, ProductImageSerializer, ProductSerializer, ReviewSerializer, CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer, UpdateOrderSerializer
 from .permissions import FullDjangoModelPermissions, IsAdminorReadOnly, ViewCustomerHistoryPermission
 # Create your views here.
 
 
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.select_related('collection').all()
+    queryset = Product.objects.prefetch_related(
+        'images').select_related('collection').all()
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     # filterset_fields = ['collection_id']
@@ -159,3 +160,13 @@ class OrderViewSet(ModelViewSet):
         customer_id = Customer.objects.only(
             'id').get(user_id=user.id)
         return Order.objects.filter(customer_id=customer_id)
+
+
+class ProductImageViewSet(ModelViewSet):
+    serializer_class = ProductImageSerializer
+
+    def get_serializer_context(self):
+        return {'product_id': self.kwargs['product_pk']}
+
+    def get_queryset(self):
+        return ProductImage.objects.filter(product_id=self.kwargs['product_pk'])
