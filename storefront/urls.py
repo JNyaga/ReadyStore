@@ -7,7 +7,9 @@ import debug_toolbar
 admin.site.site_header = 'Storefront Admin'
 admin.site.index_title = 'Admin'
 
+
 urlpatterns = [
+    # path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
     path('playground/', include('playground.urls')),
     path('store/', include('store.urls')),
