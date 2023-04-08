@@ -194,3 +194,8 @@ DEFAULT_FROM_EMAIL = 'from@joelreadysell.com'
 ADMINS = [
     ('John', 'admin@readysell.com'),
 ]
+
+
+# Celery settings
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/1"
+# CELERY_RESULT_BACKEND = "localhost:6379"
