@@ -42,7 +42,15 @@ class ProductSerializer(serializers.ModelSerializer):
         return product.unit_price * Decimal(1.1)
 
 
+class SimpleProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'title', 'unit_price']
+
+
 class CollectionSerializer(serializers.ModelSerializer):
+    # products = SimpleProductSerializer(many=True, read_only=True)
+
     class Meta:
         model = Collection
         fields = ('id', 'title', 'products_count')
@@ -60,12 +68,6 @@ class ReviewSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         product_id = self.context['product_id']
         return Review.objects.create(product_id=product_id, **validated_data)
-
-
-class SimpleProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = ['id', 'title', 'unit_price']
 
 
 class CartItemSerializer(serializers.ModelSerializer):

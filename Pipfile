@@ -18,6 +18,8 @@ django-templated-mail = "*"
 redis = "*"
 celery = "*"
 flower = "*"
+django-redis = "*"
+django-extensions = "*"
 
 [dev-packages]
 autopep8 = "*"
@@ -26,6 +28,8 @@ pytest-django = "*"
 pytest-watch = "*"
 model-bakery = "*"
 locust = "*"
+django-silk = "*"
+pygraphviz = "*"
 
 [requires]
 python_version = "3.9"
