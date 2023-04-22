@@ -67,7 +67,6 @@ locust==2.15.1
 MarkupSafe==2.1.2
 model-bakery==1.11.0
 msgpack==1.0.5
-mysqlclient==2.1.0
 oauthlib==3.2.2
 packaging==23.1
 Pillow==9.5.0
@@ -81,7 +80,6 @@ psycopg2-binary==2.9.6
 py==1.11.0
 pycodestyle==2.10.0
 pycparser==2.21
-pygraphviz==1.10
 PyJWT==2.6.0
 pytest==6.2.5
 pytest-django==4.5.2
