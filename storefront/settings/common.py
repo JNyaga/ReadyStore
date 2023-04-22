@@ -3,6 +3,9 @@ from datetime import timedelta
 import os
 from pathlib import Path
 from celery.schedules import crontab
+# import cloudinary
+# import cloudinary.uploader
+# import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -27,6 +30,8 @@ INSTALLED_APPS = [
     'djoser',
     'silk',
     'django_extensions',
+    'cloudinary',
+    'cloudinary_storage',
     'playground',
     'debug_toolbar',
     'store',
@@ -123,6 +128,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -232,4 +238,17 @@ LOGGING = {
             'style': '{'
         }
     }
+}
+
+
+# cloudinary
+# cloudinary.config(
+#     cloud_name=env('CLOUDINARY_NAME'),
+#     api_key=env('CLOUDINARY_API_KEY'),
+#     api_secret=env('CLOUDINARY_API_SECRET'))
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUDINARY_NAME'),
+    'API_KEY': env('CLOUDINARY_API_KEY'),
+    'API_SECRET': env('CLOUDINARY_API_SECRET'),
 }

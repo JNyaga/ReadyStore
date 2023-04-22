@@ -3,6 +3,8 @@ from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
 from uuid import uuid4
+from cloudinary.models import CloudinaryField
+
 
 from store.validators import validate_file_size
 
@@ -52,6 +54,8 @@ class ProductImage(models.Model):
         Product, on_delete=models.CASCADE, related_name="images")
     image = models.ImageField(upload_to='store/images',
                               validators=[validate_file_size])
+    # image = CloudinaryField(folder='django_folder', transformation={
+    #                         "width": 300, "height": 300, "crop": "fill"})
 
 
 class Customer(models.Model):
