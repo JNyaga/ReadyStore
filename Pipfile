@@ -22,6 +22,11 @@ django-redis = "*"
 django-extensions = "*"
 whitenoise = "*"
 gunicorn = "*"
+django-storage-supabase = "*"
+psycopg2 = "*"
+dj-database-url = "*"
+psycopg2-binary = "*"
+django-environ = "*"
 
 [dev-packages]
 autopep8 = "*"
