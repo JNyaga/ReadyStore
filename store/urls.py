@@ -4,6 +4,7 @@ from django.urls import path, include
 from . import views
 from pprint import pprint
 
+# app_name = 'store'
 
 router = routers.DefaultRouter()
 router.register('products', views.ProductViewSet, basename="products")

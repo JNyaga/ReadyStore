@@ -12,13 +12,19 @@ from rest_framework.response import Response
 
 from .filters import ProductFilter
 from .pagination import DefaultPagination
+# Models
 from .models import Order, Product, Collection, ProductImage, Review, OrderItem, Cart, CartItem, Customer
+# serializers
 from .serializers import CollectionSerializer, CreateOrderSerializer, OrderSerializer, ProductImageSerializer, ProductSerializer, ReviewSerializer, CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer, UpdateOrderSerializer
+
 from .permissions import FullDjangoModelPermissions, IsAdminorReadOnly, ViewCustomerHistoryPermission
 # Create your views here.
 
 
 class ProductViewSet(ModelViewSet):
+    """
+    A simple ViewSet for viewing and editing products.
+    """
     queryset = Product.objects.prefetch_related(
         'images').select_related('collection').all()
     serializer_class = ProductSerializer

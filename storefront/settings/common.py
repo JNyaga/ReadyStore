@@ -26,7 +26,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_filters',
     'corsheaders',
-    'rest_framework',
     'djoser',
     'silk',
     'django_extensions',
@@ -37,7 +36,8 @@ INSTALLED_APPS = [
     'store',
     'tags',
     'likes',
-    'core'
+    'core',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

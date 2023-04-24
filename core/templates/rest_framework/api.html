@@ -1,0 +1,19 @@
+{% extends "rest_framework/base.html" %}
+{% load rest_framework %}
+{% load i18n %}
+{% load static %}
+
+
+{% block head %}
+{{ block.super }}
+<link rel="shortcut icon" href="{% static 'core/favicon.ico' %}" type="image/x-icon">
+<link rel="icon" type="image/x-icon" href="{% static 'core/favicon.ico' %}">
+{% endblock %}
+<title>{% block title %} {{name | upper}} - READY STORE{% endblock %}</title>
+
+{% block branding %}
+<a class="navbar-brand" rel="nofollow" href="/">
+    {% trans "READY STORE" %}
+</a>
+
+{% endblock %}
