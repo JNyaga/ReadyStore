@@ -105,6 +105,8 @@ pipenv run python manage.py createsuperuser #follow the steps that follows
 
 ### USAGE:
 
+Access the api at `https://readystore.onrender.com`
+
 For `local` to run the API service you run
 
 ```bash
