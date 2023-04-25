@@ -18,6 +18,10 @@
 
 - This is a django api created to aid in creation of`ecomas` application by exposing endpoints which make it easier to access needed services without building entire backend for ecomas.
 
+Ready store API can be accessed at [ReadyStore](https://readystore.onrender.com/) `[ReadyStore](https://readystore.onrender.com/)`
+
+Or deployed locally 👇
+
 ## Installation/Usage locally
 
 #### Requirements:
@@ -57,10 +61,10 @@ pip install pipenv
 **Then** clone the project above
 
 ```bash
-git clone ''
+git clone https://github.com/JNyaga/ReadyStore.git
 ```
 
-In the `storefront/settings.py` file input the values of your `mysql database` or any database you may choose(read django docs for other databases). Find the `DATABASE` setting and do as follows
+In the `storefront/settings/dev.py` file input the values of your `mysql database` or any database you may choose(read django docs for other databases). Add the `DATABASE` setting and do as follows
 
 ```python
 DATABASES = {
