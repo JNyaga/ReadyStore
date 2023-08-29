@@ -21,3 +21,11 @@ DATABASES = {
         'PASSWORD': env('DATABASE_PASSWORD')
     }
 }
+
+# ALLOWED_HOSTS = ['readystore.onrender.com']
+# db_config = dj_database_url.parse(env('DATABASE_URL'))
+# # db_config['ATOMIC_REQUESTS'] = True
+
+# DATABASES = {
+#     'default': db_config,
+# }
