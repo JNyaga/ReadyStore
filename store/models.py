@@ -1,9 +1,10 @@
+from uuid import uuid4
+
+from cloudinary.models import CloudinaryField
 from django.contrib import admin
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
-from uuid import uuid4
-from cloudinary.models import CloudinaryField
 
 
 from store.validators import validate_file_size
