@@ -3,3 +3,4 @@
 /static/
 general.log
 .env
+linuxenv/
