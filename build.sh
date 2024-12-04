@@ -71,8 +71,11 @@ fi
 # Create superuser if not exists
 echo "Checking if superuser exists..."
 python3 manage.py shell <<EOF
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 import os
+
+# Get the custom User model
+User = get_user_model()
 
 username = os.getenv('DJANGO_SUPERUSER_USERNAME')
 email = os.getenv('DJANGO_SUPERUSER_EMAIL')
